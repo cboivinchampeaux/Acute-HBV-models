@@ -1,0 +1,205 @@
+library(shiny)
+# install.packages("shinydashboard")
+library(shinydashboard)
+# install.packages("shinyWidgets")
+library(shinyWidgets)
+
+sidebar <- dashboardSidebar( width=500,
+                             hr(),
+                             sidebarMenu(id= "tabs",
+                                         menuItem("Model", icon = icon("chevron-circle-right"),
+                                                  checkboxInput("II", "Two Infected cells populations (Model 5)", TRUE),
+                                                  checkboxInput("R", "Refractory cells population (Model 6)", FALSE),
+                                                  checkboxInput("A", "Antibody population (Model 7a)", FALSE),
+                                                  checkboxInput("AE", "Antibody and Effector cells populations (Model 7b)", FALSE),
+                                                  numericInput("num5", label = h4("Duration of Model (Days)"), value = 300)
+                                         ),
+                                         menuItem("Initial conditions", icon = icon("chevron-circle-right"),
+                                                  numericInput("num2", label = h4("Initial Uninfected cells"), value = 13.6 * 10 ** 6),
+                                                  numericInput("num3", label = h4("Initial Free Virus"), value = 0.33),
+                                                  numericInput("num4", label = h4("Initial Effector cells"), value = 20)
+                                         ),
+                                         menuItem("Parameters Model 5", icon = icon("chevron-circle-right"),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("r1", "r", value = 0.01, min = 0.001, max = 1, step = 0.001)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("tmax", HTML("T<sub>max</sub> (x 10<sup>7</sup>)"), value = 1.36, min = 0.136, max = 13.6, step = 0.136)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("beta1", HTML("&beta; (x 10<sup>-10</sup>)"), value = 3.0, min = 0.7, max = 6.7, step = 0.1)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("mu1", HTML("&mu; (x 10<sup>-4</sup>)"), value = 7.0, min = 5.4, max = 9.9, step = 0.1)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("tau1", HTML("&tau;"), value = 22.9, min = 15.1, max = 29.9, step=0.1)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("alpha1", HTML("&alpha; (x 10<sup>-7</sup>)"), value = 4.4, min = 2.3, max = 7.3, step = 0.1)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("delta_tr", HTML("&delta;<sub>tr</sub>"), value = 0.64, min = 0.22, max = 0.98, step = 0.05)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("rho1", HTML("&rho;<sub>1</sub>"), value = 0.06, min = 0.05, max = 0.11, step = 0.01)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("rho2", HTML("&rho;<sub>2</sub>"), value = 0.1, min = 0.051, max = 0.18, step = 0.01)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("pI1", HTML("p<sub>1</sub>"), value = 102, min = 34, max = 232, step = 5)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("pI2", HTML("p<sub>2</sub>"), value = 213, min = 42, max = 428, step = 5)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("c", "c", value = 0.67, min = 0.1, max = 1.5, step = 0.1)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("z", "z", value = 10, min = 5, max = 15, step = 1)),
+                                                  conditionalPanel(condition= "input.II == 1 ",
+                                                                   sliderInput("de", HTML("d<sub>E</sub>"), value = 0.5, min = 0.1, max = 1.0, step = 0.1))
+                                                  ),
+                                         menuItem("Parameters Model 6", icon = icon("chevron-circle-right"),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("tmax", HTML("T<sub>max</sub> (x 10<sup>7</sup>)"), value = 1.36, min = 0.136, max = 13.6, step = 0.136)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("beta2", HTML("&beta; (x 10<sup>-10</sup>)"), value = 2.49, min = 0.65, max = 7.81, step = 0.01)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("mu2", HTML("&mu; (x 10<sup>-4</sup>)"), value = 1.28, min = 0.003, max = 72, step = 0.1)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("tau2", HTML("&tau;"), value = 24, min = 15.2, max = 34.4, step=0.1)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("alpha2", HTML("&alpha; (x 10<sup>-7</sup>)"), value = 2.5, min = 1.2, max = 4.4, step = 0.1)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("rho", HTML("&rho; (x 10<sup>-3</sup>)"), value = 0.566, min = 0.119, max = 1.87, step = 0.01)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("rho_r", HTML("&rho;<sub>R</sub> (x 10<sup>-5</sup>)"), value = 2.0, min = 1.0, max = 2.5, step = 0.1)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("mu_r", HTML("&mu;<sub>R</sub> (x 10<sup>-6</sup>)"), value = 5.0, min = 0.07, max = 180.0, step = 0.5)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("p2", "p", value = 107, min = 39, max = 400, step = 5)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("c", "c", value = 0.67, min = 0.1, max = 1.5, step = 0.1)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("z", "z", value = 10, min = 5, max = 15, step = 1)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("de", HTML("d<sub>E</sub>"), value = 0.5, min = 0.1, max = 1.0, step = 0.1)),
+                                                  conditionalPanel(condition= "input.R == 1 ",
+                                                                   sliderInput("r2", "r", value = 1, min = 0.001, max = 1.5, step = 0.001))
+                                                  ),
+                                         menuItem("Parameters Model 7a", icon = icon("chevron-circle-right"),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("tmax", HTML("T<sub>max</sub> (x 10<sup>7</sup>)"), value = 1.36, min = 0.136, max = 13.6, step = 0.136)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("beta3", HTML("&beta; (x 10<sup>-10</sup>)"), value = 7.57, min = 0.95, max = 18.20, step = 0.01)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("p3", "p", value = 80.5, min = 12.4, max = 297, step = 5.0)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("kp3", HTML("k<sub>p</sub>  (x 10<sup>-12</sup>)"), value = 1, min = 0.1, max = 10, step = 0.1)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("delta3", HTML("&delta;"), value = 0.056, min = 0.0000998, max = 0.1538, step = 0.01)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("cxav3", HTML("c<sub>XAV</sub>"), value = 2.7, min = 0.27, max = 7.0, step = 0.1)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("pa3", HTML("p<sub>A</sub> (x 10<sup>-5</sup>)"), value = 77.3, min = 0.1, max = 520, step = 1)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("ra3", HTML("r<sub>A</sub>"), value = 0.365, min = 0.2672, max = 0.4656, step = 0.05)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("amax3", HTML("A<sub>max</sub> (x 10<sup>15</sup>)"), value = 4, min = 0.4, max = 40, step = 0.4)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("c", "c", value = 0.67, min = 0.1, max = 1.5, step = 0.1)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("r2", "r", value = 1, min = 0.001, max = 1.5, step = 0.001)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("theta", HTML("&theta;"), value = 1e3, min = 1e2, max = 1e4, step = 1e2)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("km", HTML("k<sub>m</sub>"), value = 10, min = 1, max = 100, step = 1)),
+                                                  conditionalPanel(condition= "input.A == 1 ",
+                                                                   sliderInput("da", HTML("d<sub>A</sub>"), value = 0.033, min = 0.010, max = 0.100, step = 0.01))
+                                                  ),
+                                         menuItem("Parameters Model 7b", icon = icon("chevron-circle-right"),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("tmax", HTML("T<sub>max</sub> (x 10<sup>7</sup>)"), value = 1.36, min = 0.136, max = 13.6, step = 0.136)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("beta4", HTML("&beta; (x 10<sup>-10</sup>)"), value = 4.65, min = 2.21, max = 9.24, step = 0.01)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("p4", "p", value = 246, min = 117, max = 366, step = 10.0)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("kp4", HTML("k<sub>p</sub> (x 10<sup>-10</sup>)"), value = 1, min = 0.1, max = 10, step = 0.1)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("delta4", HTML("&delta;"), value = 0.076, min = 0.018, max = 0.146, step = 0.01)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("mu4", HTML("&mu; (x 10<sup>-3</sup>)"), value = 1.0, min = 0.1, max = 2.5, step = 0.1)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("c4", "c", value = 1.67, min = 0.67, max = 3.0, step = 0.1)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("cxav4", HTML("c<sub>XAV</sub>"), value = 6.68, min = 0.27, max = 8.0, step = 0.1)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("pa4", HTML("p<sub>A</sub> (x 10<sup>-3</sup>)"), value = 4.4, min = 0.1, max = 13.8, step = 0.5)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("ra4", HTML("r<sub>A</sub>"), value = 0.32, min = 0.22, max = 0.45, step = 0.01)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("alpha4", HTML("&alpha; (x 10<sup>-7</sup>)"), value = 2.2, min = 1.2, max = 4.4, step = 0.1)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("amax4", HTML("A<sub>max</sub> (x 10<sup>11</sup>)"), value = 4, min = 0.4, max = 40, step = 0.4)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("z", "z", value = 10, min = 5, max = 15, step = 1)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("de", HTML("d<sub>E</sub>"), value = 0.5, min = 0.1, max = 1.0, step = 0.1)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("r2", "r", value = 1, min = 0.001, max = 1.5, step = 0.001)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("theta", HTML("&theta;"), value = 1e3, min = 1e2, max = 1e4, step = 1e2)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("km", HTML("k<sub>m</sub>"), value = 10, min = 1, max = 100, step = 1)),
+                                                  conditionalPanel(condition= "input.AE == 1 ",
+                                                                   sliderInput("da", HTML("d<sub>A</sub>"), value = 0.033, min = 0.010, max = 0.100, step = 0.01))
+                                                  
+                                         )
+                             ),
+                             hr()
+)
+
+
+body <- dashboardBody(
+    fluidRow(
+      column(6,
+             tabName = "plot4", 
+            box(width = NULL, plotOutput("plot4"), collapsible = TRUE, 
+                title = "Simulated Uninfected cells vs. Time Curve", status = "primary", solidHeader = TRUE)
+      ),
+    column(6,
+           tabName = "plot1", 
+           box(width = NULL, plotOutput("plot1"), collapsible = TRUE, 
+               title = "Simulated Free virus vs. Time Curve", status = "primary", solidHeader = TRUE)
+    )
+    ),
+    fluidRow(
+      column(6,
+             tabName = "plot3", 
+            box(width = NULL, plotOutput("plot3"), collapsible = TRUE, 
+                title = "Simulated Infected cells vs. Time Curve", status = "primary", solidHeader = TRUE)
+      ),  
+    column(6,
+           tabName = "plot2", 
+           box(width = NULL, plotOutput("plot2"), collapsible = TRUE, 
+               title = "Simulated Effector cells vs. Time Curve", status = "primary", solidHeader = TRUE)
+           )
+    ),
+    fluidRow(
+      column(12,
+             tabName = "plot5", 
+             box(width = NULL, plotOutput("plot5"), collapsible = TRUE, 
+                 title = "Simulated Refractory cells vs. Time Curve", status = "primary", solidHeader = TRUE)
+           )
+      ),
+      fluidRow(
+      column(6,
+             tabName = "plot6", 
+             box(width = NULL, plotOutput("plot6"), collapsible = TRUE, 
+                 title = "Simulated Antibody vs. Time Curve", status = "primary", solidHeader = TRUE)
+      ),
+      column(6,
+             tabName = "plot7", 
+             box(width = NULL, plotOutput("plot7"), collapsible = TRUE, 
+                 title = "Simulated Antibody-Virus complexes vs. Time Curve", status = "primary", solidHeader = TRUE)
+    ))
+)
+     
+
+dashboardPage(
+  dashboardHeader(title= "Simulation Acute HBV models", titleWidth = 350),
+  skin= "purple",
+  sidebar,
+  body
+)

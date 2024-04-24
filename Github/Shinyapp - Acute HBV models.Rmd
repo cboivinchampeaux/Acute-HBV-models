@@ -1,0 +1,21 @@
+---
+title: "Shiny app - Acute HBV models"
+author: "Clemence Boivin-Champeaux"
+date: "2024-03-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+
+library(shiny)
+# install.packages("shinydashboard")
+library(shinydashboard)
+shiny::runApp('Acute_HBV_individualprofiles')
+shiny::runApp('Acute_HBV_meanprofiles')
+
+```

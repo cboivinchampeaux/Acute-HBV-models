@@ -39,30 +39,23 @@ body <- dashboardBody(
                 title = "Simulated Free virus vs. Time Curve - Patient 3", status = "primary", solidHeader = TRUE)
       ),  
     column(6,
-           tabName = "plot4", 
-           box(width = NULL, plotOutput("plot4"), collapsible = TRUE, 
-               title = "Simulated Free virus vs. Time Curve - Patient 4", status = "primary", solidHeader = TRUE)
+           tabName = "plot5", 
+           box(width = NULL, plotOutput("plot5"), collapsible = TRUE, 
+               title = "Simulated Free virus vs. Time Curve - Patient 5", status = "primary", solidHeader = TRUE)
            )
     ),
     fluidRow(
       column(6,
-             tabName = "plot5", 
-             box(width = NULL, plotOutput("plot5"), collapsible = TRUE, 
-                 title = "Simulated Free virus vs. Time Curve - Patient 5", status = "primary", solidHeader = TRUE)
-      ),  
-      column(6,
              tabName = "plot6", 
              box(width = NULL, plotOutput("plot6"), collapsible = TRUE, 
                  title = "Simulated Free virus vs. Time Curve - Patient 6", status = "primary", solidHeader = TRUE)
-      )
-    ),
-    fluidRow(
+      ),  
       column(6,
              tabName = "plot7", 
              box(width = NULL, plotOutput("plot7"), collapsible = TRUE, 
                  title = "Simulated Free virus vs. Time Curve - Patient 7", status = "primary", solidHeader = TRUE)
       )
-    )
+     )
 )
      
 

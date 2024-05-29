@@ -8,8 +8,7 @@ library(ggplot2)
 library(scales)
 
 #Set the directory where you saved the observations files
-obsV <- read.csv("C:/Users/boivinchampeauxc/Documents/Projet/Software - literature modeling/Shiny App/Acute_HBV_3/Dataset/HBVDNA_allpatients_Ciupe.csv")
-obsALT <- read.csv("C:/Users/boivinchampeauxc/Documents/Projet/Software - literature modeling/Shiny App/Acute_HBV_3/Dataset/ALT_allpatients_Ciupe.csv")
+obsV <- read.csv("C:/Users/boivinchampeauxc/Documents/Projet/Software - literature modeling/Shiny App/Acute_HBV_3/Dataset/HBVDNA_observations.csv")
 
 shinyServer(function(input, output) {
   output$plot1 <- renderPlot({
@@ -198,7 +197,7 @@ shinyServer(function(input, output) {
     pl <- pl + geom_point(obsV,mapping = aes(x = time, y = V), shape=4, color = "black", size=1)
     pl <- pl + labs(x='Time (Days)') + labs(y='HBV DNA (virions/mL)') +
       labs(color  = "Model", linetype = "Model")
-    pl <- pl + theme(legend.position=c(.60, 0.25), legend.justification=c(0,1), legend.title=element_blank())
+    pl <- pl + theme(legend.position=c(.55, 0.25), legend.justification=c(0,1), legend.title=element_blank())
     pl <- pl + scale_y_continuous(
       trans = 'log10', limits = c(0.001, 10^11),
       breaks = brk_y,
@@ -388,12 +387,11 @@ shinyServer(function(input, output) {
       
       vdisp[3] <- TRUE}
     
-    pl <- pl + geom_point(obsALT,mapping = aes(x = Time, y = Serum_ALT), shape=4, color = "black", size=1)
     pl <- pl + labs(x='Time (Days)') + labs(y='Effector cells (cell/mL)') +
       labs(color  = "Model", linetype = "Model")
     pl <- pl + labs(x='Time (Days)') + labs(y='Effector cells (cell/mL)') +
       labs(color  = "Model", linetype = "Model")
-    pl <- pl + theme(legend.position=c(.60, 0.25), legend.justification=c(0,1), legend.title=element_blank())
+    pl <- pl + theme(legend.position=c(.55, 0.25), legend.justification=c(0,1), legend.title=element_blank())
     pl <- pl + scale_y_continuous(
       trans = 'log10', limits = c(0.001, 10^11),
       breaks = brk_y,
@@ -598,7 +596,7 @@ shinyServer(function(input, output) {
     pl <- pl + labs(x='Time (Days)') + labs(y='Infected cells (cell/mL)') +
       labs(color  = "Model", linetype = "Model")
 
-    pl <- pl + theme(legend.position=c(.60, 0.25), legend.justification=c(0,1), legend.title=element_blank())
+    pl <- pl + theme(legend.position=c(.55, 0.25), legend.justification=c(0,1), legend.title=element_blank())
     pl <- pl + scale_y_continuous(
       trans = 'log10', limits = c(0.001, 10^11),
       breaks = brk_y,
@@ -800,7 +798,7 @@ shinyServer(function(input, output) {
     pl <- pl + labs(x='Time (Days)') + labs(y='Uninfected cells (cell/mL)') +
       labs(color  = "Model", linetype = "Model")
 
-    pl <- pl + theme(legend.position=c(.60, 0.25), legend.justification=c(0,1), legend.title=element_blank())
+    pl <- pl + theme(legend.position=c(.55, 0.25), legend.justification=c(0,1), legend.title=element_blank())
     pl <- pl + scale_y_continuous(
       trans = 'log10', limits = c(0.001, 10^11),
       breaks = brk_y,
@@ -972,7 +970,7 @@ shinyServer(function(input, output) {
     pl <- pl + labs(x='Time (Days)') + labs(y='Refractory cells (cell/mL)') +
       labs(color  = "Model", linetype = "Model")
 
-    pl <- pl + theme(legend.position=c(.60, 0.25), legend.justification=c(0,1), legend.title=element_blank())
+    pl <- pl + theme(legend.position=c(.55, 0.25), legend.justification=c(0,1), legend.title=element_blank())
     pl <- pl + scale_y_continuous(
       trans = 'log10', limits = c(0.001, 10^11),
       breaks = brk_y,
@@ -1136,27 +1134,27 @@ shinyServer(function(input, output) {
     
     vdisp <- rep(FALSE,2)
     pl=ggplotmlx()
-    brk_y <-c(10^(-10),10^(-5),10^0,10^5) 
+    brk_y <-c(10^(-6),10^(-3),10^0,10^3,10^6,10^9) 
     colormanual <- c("Antibody population"="goldenrod4",
                     "Antibody and Effector cells populations" = "gold")
     linemanual <- c("Antibody population"="dashed",
                     "Antibody and Effector cells populations" = "dotted")
     if (input$A == 1){
-      pl=pl + geom_line(data=finaloutput3, aes(x=timesA, y = A,color = "Antibody population",
+      pl=pl + geom_line(data=finaloutput3, aes(x=timesA, y = A/1e-9,color = "Antibody population",
                                                linetype="Antibody population"),size=1.075) 
       
       vdisp[3] <- TRUE}
     if (input$AE == 1){
-      pl=pl + geom_line(data=finaloutput4, aes(x=timesAE, y = A,color = "Antibody and Effector cells populations",
+      pl=pl + geom_line(data=finaloutput4, aes(x=timesAE, y = A/1e-9,color = "Antibody and Effector cells populations",
                                                linetype="Antibody and Effector cells populations"),size=1.075) 
       
       vdisp[4] <- TRUE}
-    pl <- pl + labs(x='Time (Days)') + labs(y='Free Antibody (mg/mL)') +
+    pl <- pl + labs(x='Time (Days)') + labs(y='Free Antibody (pg/mL)') +
       labs(color  = "Model", linetype = "Model")
     
-    pl <- pl + theme(legend.position=c(.60, 0.2), legend.justification=c(0,1), legend.title=element_blank())
+    pl <- pl + theme(legend.position=c(.55, 0.2), legend.justification=c(0,1), legend.title=element_blank())
     pl <- pl + scale_y_continuous(
-      trans = 'log10', limits = c(10^(-10), 10^5),
+      trans = 'log10', limits = c(10^(-6), 10^10),
       breaks = brk_y,
       labels = trans_format("log10", math_format(10^.x)),
       expand = c(0, 0)
@@ -1318,27 +1316,27 @@ shinyServer(function(input, output) {
     
     vdisp <- rep(FALSE,2)
     pl=ggplotmlx()
-    brk_y <-c(10^(-15),10^(-10),10^(-5),10^0) 
+    brk_y <-c(10^(-9),10^(-6),10^(-3),10^0,10^3,10^6,10^9)
     colormanual <- c("Antibody population"="chocolate3",
                      "Antibody and Effector cells populations" = "chocolate1")
     linemanual <- c("Antibody population"="dashed",
                     "Antibody and Effector cells populations" = "dotted")
     if (input$A == 1){
-      pl=pl + geom_line(data=finaloutput3, aes(x=timesA, y = XAV,color = "Antibody population",
+      pl=pl + geom_line(data=finaloutput3, aes(x=timesA, y = XAV/1e-9,color = "Antibody population",
                                                linetype="Antibody population"),size=1.075) 
       
       vdisp[3] <- TRUE}
     if (input$AE == 1){
-      pl=pl + geom_line(data=finaloutput4, aes(x=timesAE, y = XAV,color = "Antibody and Effector cells populations",
+      pl=pl + geom_line(data=finaloutput4, aes(x=timesAE, y = XAV/1e-9,color = "Antibody and Effector cells populations",
                                                linetype="Antibody and Effector cells populations"),size=1.075) 
       
       vdisp[4] <- TRUE}
-    pl <- pl + labs(x='Time (Days)') + labs(y='Virus-antibody complexes (mg/mL)') +
+    pl <- pl + labs(x='Time (Days)') + labs(y='Virus-antibody complexes (pg/mL)') +
       labs(color  = "Model", linetype = "Model")
     
-    pl <- pl + theme(legend.position=c(.60, 0.2), legend.justification=c(0,1), legend.title=element_blank())
+    pl <- pl + theme(legend.position=c(.55, 0.2), legend.justification=c(0,1), legend.title=element_blank())
     pl <- pl + scale_y_continuous(
-      trans = 'log10', limits = c(10^(-15), 10^0),
+      trans = 'log10', limits = c(10^(-9), 10^3),
       breaks = brk_y,
       labels = trans_format("log10", math_format(10^.x)),
       expand = c(0, 0)

@@ -6,7 +6,7 @@ library(ggplot2)
 library(scales)
 
 #Set the directory where you saved the observations files
-obsV <- read.csv("C:/Users/boivinchampeauxc/Documents/GitHub/Acute-HBV-models/Shiny app/Acute_HBV_meanprofiles/Dataset/HBVDNA_observations.csv")
+obsV <- read.csv("C:/Users/YourUser/.../Acute-HBV-models-main/Shiny app/Acute_HBV_meanprofiles/Dataset/HBVDNA_observations.csv")
 
 shinyServer(function(input, output) {
   output$plot1 <- renderPlot({

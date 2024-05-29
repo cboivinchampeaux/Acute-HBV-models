@@ -2,12 +2,19 @@
 Shiny app for acute HBV models
 
 To see the mean profiles for the different models: 
-Download the folder "Acute_HBV_meanprofiles" that contains the ui.R, the server.R files and the "Dataset" folder.
-In the server.R file, don't forget to set the directory where you have your observation files saved.
-Download the Shinyapp - Acute HBV models.Rmd file. Set the Working Direction to the location of the folder (but not the folder itself) and type in: shiny::runApp('Acute_HBV_meanprofiles')
+1. Download the ZIP.
+2. In the server.R file, don't forget to set the correct directory of the observation file:
+   obsV <- read.csv("C:/Users/YourUser/.../Acute-HBV-models-main/Shiny app/Acute_HBV_meanprofiles/Dataset/HBVDNA_observations.csv")
+3. In the Shinyapp - Acute HBV models.Rmd file run shiny::runApp('Acute_HBV_meanprofiles')
 
 To see the 6 patients profiles for the different models:  
-Download the folder "Acute_HBV_individualprofiles" that contains the ui.R, the server.R files and the "Dataset" folder.
-In the server.R file, don't forget to set the directory where you have your observation files saved.
-Download the Shinyapp - Acute HBV models.Rmd file. Set the Working Direction to the location of the folder (but not the folder itself) and type in: shiny::runApp('Acute_HBV_individualprofiles')
+1. Download the ZIP.
+2. In the server.R file, don't forget to set the correct directory of the observation file:
+   patient1_obsV <- read.csv("C:/Users/YourUser/.../Acute-HBV-models-main/Shiny app/Acute_HBV_individualprofiles/Dataset/patient1-observationV.csv")
+   patient2_obsV <- read.csv("C:/Users/YourUser/.../Acute-HBV-models-main/Shiny app/Acute_HBV_individualprofiles/Dataset/patient2-observationV.csv")
+   patient3_obsV <- read.csv("C:/Users/YourUser/.../Acute-HBV-models-main/Shiny app/Acute_HBV_individualprofiles/Dataset/patient3-observationV.csv")
+   patient5_obsV <- read.csv("C:/Users/YourUser/.../Acute-HBV-models-main/Shiny app/Acute_HBV_individualprofiles/Dataset/patient5-observationV.csv")
+   patient6_obsV <- read.csv("C:/Users/YourUser/.../Acute-HBV-models-main/Shiny app/Acute_HBV_individualprofiles/Dataset/patient6-observationV.csv")
+   patient7_obsV <- read.csv("C:/Users/YourUser/.../Acute-HBV-models-main/Shiny app/Acute_HBV_individualprofiles/Dataset/patient7-observationV.csv")
+3. In the Shinyapp - Acute HBV models.Rmd file run shiny::runApp('Acute_HBV_individualprofiles')
 

@@ -1,5 +1,3 @@
-#Server code for modeling via differential equations for oral and iv PK
-
 library(deSolve)
 library(shiny)
 library(mlxR)

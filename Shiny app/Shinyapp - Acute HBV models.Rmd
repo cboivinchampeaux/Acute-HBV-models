@@ -12,9 +12,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 
-library(shiny)
 install.packages("shinydashboard")
+install.packages("shinyWidgets")
+install.packages("deSolve")
+install.packages("shiny")
+install.packages("mlxR")
+install.packages("scales")
+
+library(shiny)
 library(shinydashboard)
+
 shiny::runApp('Acute_HBV_individualprofiles')
 shiny::runApp('Acute_HBV_meanprofiles')
 

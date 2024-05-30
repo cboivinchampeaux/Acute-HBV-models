@@ -1,7 +1,5 @@
 library(shiny)
-# install.packages("shinydashboard")
 library(shinydashboard)
-# install.packages("shinyWidgets")
 library(shinyWidgets)
 
 sidebar <- dashboardSidebar( width=500,

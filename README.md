@@ -2,6 +2,7 @@
 Shiny app for acute HBV models
 
 Make sure that you R and Rstudio versions are up to date.
+
 Make sure to install the different packages that are in the Shinyapp - Acute HBV models.Rmd file if not already installed: <code>install.packages("Packagename")</code>
 
 To see the mean profiles for the different models: 
